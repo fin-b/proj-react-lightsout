@@ -1,12 +1,17 @@
 import React from 'react'
 import { Tile } from './Tile'
 import './Grid.css'
+import puzzleSet from '../puzzles/puzzles.json'
 
 class Grid extends React.Component {
   constructor (props) {
     super(props)
+
+    const puzzles = puzzleSet.initial_states
+
     this.state = {
-      tiles: Array(25).fill(0)
+      tiles: puzzles[Math.floor(Math.random() * puzzles.length)],
+      puzzles: puzzles
     }
   }
 
@@ -17,13 +22,13 @@ class Grid extends React.Component {
     // Generate cross pattern about selected tile
     const targets = [
       i - 5, // Tile above
-      i % 5 ? i - 1 : NONE, // Tile to left, account for left edge of grid
+      i % 5 ? i - 1 : NONE, // Tile on left, account for left edge of grid
       i, // Selected tile
-      (i + 1) % 5 ? i + 1 : NONE, // Tile to right, account for right edge of grid
+      (i + 1) % 5 ? i + 1 : NONE, // Tile on right, account for right edge of grid
       i + 5 // Tile above
-    ].filter(i => 0 <= i <= this.state.tiles.length) // Remove out-of-bound selections
+    ].filter(i => 0 <= i <= this.state.tiles.length) // Remove out-of-bound indexes
 
-    // Toggle each tile's status
+    // Toggle each selected tile's status
     targets.forEach(t => (tiles[t] = tiles[t] ? 0 : 1))
 
     this.setState({ tiles: tiles })
@@ -61,8 +66,30 @@ class Grid extends React.Component {
       )
     }
 
+    let nextPuzzleButton = (
+      <button
+        onClick={() =>
+          this.setState({
+            tiles: this.state.puzzles[
+              Math.floor(Math.random() * this.state.puzzles.length)
+            ]
+          })
+        }
+      >
+        Random Puzzle
+      </button>
+    )
+
+    let copyStateToClipboardButton = (
+      <button onClick={() => navigator.clipboard.writeText(this.state.tiles)}>
+        Copy Grid
+      </button>
+    )
+
     return (
       <div>
+        {copyStateToClipboardButton}
+        {nextPuzzleButton}
         {status}
         {grid}
       </div>
