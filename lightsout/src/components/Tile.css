@@ -1,14 +1,17 @@
 .tile {
-    border: 1px solid rgb(0, 0, 80);
-    height: 64px;
-    width: 64px;
+    border: none;
+    margin: 1px;
+    width: max(calc((100% / 5) - 2px));
+    max-width: 88px;
+    aspect-ratio: 1/1;
     padding: 0;
+    border-radius: 4px;
 }
 
 .tile[status='0'] {
-    background-color: rgb(153, 153, 153);
+    background-color: rgb(51, 82, 125);
 }
 
 .tile[status='1'] {
-    background-color: rgb(255, 255, 0);
+    background-color: rgb(255, 194, 0);
 }
