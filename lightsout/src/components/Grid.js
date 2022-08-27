@@ -38,7 +38,7 @@ class Grid extends React.Component {
    *
    * @param {number} k key
    * @param {number} s status
-   * @returns
+   * @returns {JSX.Element}
    */
   renderTile (k, s) {
     return <Tile key={k} status={s} onClick={() => this.handleClick(k)} />
@@ -47,9 +47,7 @@ class Grid extends React.Component {
   render () {
     const SIZE = 5
     let grid = []
-    const status = isSolved(this.state.tiles)
-      ? 'Puzzled solved'
-      : 'Puzzle not solved'
+    const status = isSolved(this.state.tiles) ? 'Solved' : 'Unsolved'
 
     // Generate row
     for (let r = 0; r < SIZE; r++) {
@@ -68,6 +66,7 @@ class Grid extends React.Component {
 
     let nextPuzzleButton = (
       <button
+        className='gameButton'
         onClick={() =>
           this.setState({
             tiles: this.state.puzzles[
@@ -76,14 +75,15 @@ class Grid extends React.Component {
           })
         }
       >
-        Random Puzzle
+        Next Puzzle
       </button>
     )
 
     let copyStateToClipboardButton = (
       <button
+        className='gameButton'
         onClick={() =>
-          navigator.clipboard.writeText(this.state.tiles.slice(0,24))
+          navigator.clipboard.writeText(this.state.tiles.slice(0, 24))
         }
       >
         Copy Grid
@@ -91,11 +91,13 @@ class Grid extends React.Component {
     )
 
     return (
-      <div>
-        {copyStateToClipboardButton}
-        {nextPuzzleButton}
-        {status}
-        {grid}
+      <div className='gridContainer'>
+        <div className='grid'>{grid}</div>
+        <div className='statusMessage'>{status}</div>
+        <div className='gameButtons'>
+          {copyStateToClipboardButton}
+          {nextPuzzleButton}
+        </div>
       </div>
     )
   }
