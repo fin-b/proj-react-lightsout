@@ -11,19 +11,21 @@ class Grid extends React.Component {
   }
 
   handleClick (i) {
-    const NONE = -1
+    const NONE = -1 // Out-of-bound index
     const tiles = this.state.tiles.slice()
-    const targets = [
-      i - 5,
-      i % 5 ? i - 1 : NONE,
-      i,
-      (i + 1) % 5 ? i + 1 : NONE,
-      i + 5
-    ].filter(i => 0 <= i <= this.state.tiles.length)
 
+    // Generate cross pattern about selected tile
+    const targets = [
+      i - 5, // Tile above
+      i % 5 ? i - 1 : NONE, // Tile to left, account for left edge of grid
+      i, // Selected tile
+      (i + 1) % 5 ? i + 1 : NONE, // Tile to right, account for right edge of grid
+      i + 5 // Tile above
+    ].filter(i => 0 <= i <= this.state.tiles.length) // Remove out-of-bound selections
+
+    // Toggle each tile's status
     targets.forEach(t => (tiles[t] = tiles[t] ? 0 : 1))
 
-    // tiles[i] = tiles[i] ? 0 : 1
     this.setState({ tiles: tiles })
   }
 
@@ -40,6 +42,9 @@ class Grid extends React.Component {
   render () {
     const SIZE = 5
     let grid = []
+    const status = isSolved(this.state.tiles)
+      ? 'Puzzled solved'
+      : 'Puzzle not solved'
 
     // Generate row
     for (let r = 0; r < SIZE; r++) {
@@ -56,8 +61,24 @@ class Grid extends React.Component {
       )
     }
 
-    return <div>{grid}</div>
+    return (
+      <div>
+        {status}
+        {grid}
+      </div>
+    )
   }
+}
+
+/**
+ * Determines whether the given puzzle has been solved.
+ *
+ * @param {Array<number>} lights The status of the lights in the puzzle.
+ * @returns {boolean} `true` if solved, `false` otherwise.
+ */
+function isSolved (lights) {
+  // Is every light off?
+  return lights.every(t => !t)
 }
 
 export { Grid }
