@@ -1,5 +1,6 @@
 import React from 'react'
 import { Tile } from './Tile'
+import './Grid.css'
 
 class Grid extends React.Component {
   constructor (props) {
@@ -37,7 +38,7 @@ class Grid extends React.Component {
         let i = r * SIZE + c
         row.push(this.renderTile(i, this.state.tiles[i]))
       }
-      grid.push(<div key={r}>{row}</div>)
+      grid.push(<div key={r} className='gridRow'>{row}</div>)
     }
 
     return <div>{grid}</div>
