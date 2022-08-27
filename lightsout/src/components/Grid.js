@@ -10,10 +10,21 @@ class Grid extends React.Component {
     }
   }
 
-  handleClick(i) {
-    const tiles = this.state.tiles.slice();
-    tiles[i] = tiles[i] ? 0 : 1;
-    this.setState({tiles: tiles});
+  handleClick (i) {
+    const NONE = -1
+    const tiles = this.state.tiles.slice()
+    const targets = [
+      i - 5,
+      i % 5 ? i - 1 : NONE,
+      i,
+      (i + 1) % 5 ? i + 1 : NONE,
+      i + 5
+    ].filter(i => 0 <= i <= this.state.tiles.length)
+
+    targets.forEach(t => (tiles[t] = tiles[t] ? 0 : 1))
+
+    // tiles[i] = tiles[i] ? 0 : 1
+    this.setState({ tiles: tiles })
   }
 
   /**
@@ -38,7 +49,11 @@ class Grid extends React.Component {
         let i = r * SIZE + c
         row.push(this.renderTile(i, this.state.tiles[i]))
       }
-      grid.push(<div key={r} className='gridRow'>{row}</div>)
+      grid.push(
+        <div key={r} className='gridRow'>
+          {row}
+        </div>
+      )
     }
 
     return <div>{grid}</div>
