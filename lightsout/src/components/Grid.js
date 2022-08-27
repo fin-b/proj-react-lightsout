@@ -80,8 +80,15 @@ class Grid extends React.Component {
       </button>
     )
 
+    let copyStateToClipboardButton = (
+      <button onClick={() => navigator.clipboard.writeText(this.state.tiles)}>
+        Copy Grid
+      </button>
+    )
+
     return (
       <div>
+        {copyStateToClipboardButton}
         {nextPuzzleButton}
         {status}
         {grid}
