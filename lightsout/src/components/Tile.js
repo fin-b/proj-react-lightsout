@@ -1,10 +1,13 @@
 import React from 'react'
+import './Tile.css'
 
 function Tile (props) {
   return (
-    <button className='tile' onClick={() => props.onClick()}>
-      {props.status}
-    </button>
+    <button
+      className='tile'
+      status={props.status}
+      onClick={() => props.onClick()}
+    ></button>
   )
 }
 

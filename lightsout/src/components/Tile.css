@@ -1,0 +1,14 @@
+.tile {
+    border: 1px solid rgb(0, 0, 80);
+    height: 64px;
+    width: 64px;
+    padding: 0;
+}
+
+.tile[status='0'] {
+    background-color: rgb(153, 153, 153);
+}
+
+.tile[status='1'] {
+    background-color: rgb(255, 255, 0);
+}
