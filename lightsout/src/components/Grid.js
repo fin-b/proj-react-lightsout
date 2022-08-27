@@ -26,7 +26,7 @@ class Grid extends React.Component {
       i, // Selected tile
       (i + 1) % 5 ? i + 1 : NONE, // Tile on right, account for right edge of grid
       i + 5 // Tile above
-    ].filter(i => 0 <= i <= this.state.tiles.length) // Remove out-of-bound indexes
+    ].filter(i => 0 <= i <= tiles.length) // Remove out-of-bound indexes
 
     // Toggle each selected tile's status
     targets.forEach(t => (tiles[t] = tiles[t] ? 0 : 1))
@@ -82,7 +82,9 @@ class Grid extends React.Component {
     let copyStateToClipboardButton = (
       <button
         className='gameButton'
-        onClick={() => navigator.clipboard.writeText(this.state.tiles)}
+        onClick={() =>
+          navigator.clipboard.writeText(this.state.tiles.slice(0, 24))
+        }
       >
         Copy Grid
       </button>
