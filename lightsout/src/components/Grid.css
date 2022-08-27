@@ -1,21 +1,28 @@
 .gridRow:after {
+    /* Display */
     clear: both;
     content: '';
     display: table;
 }
 
 .gridContainer {
-    width: max(400px, 50vw);
+    /* Display */
     max-width: 450px;
+    width: max(400px, 50vw);
 }
 
 .statusMessage {
+    /* Display */
+    margin-bottom: 1vh;
+    margin-top: 1vh;
+
+    /* Color */
+    background-color: rgb(255, 255, 108);
+    color: rgb(40, 44, 52);
+
+    /* Text */
     font-family: 'Montserrat', sans-serif;
     font-size: 38px;
-    color: rgb(40, 44, 52);
-    margin-top: 1vh;
-    margin-bottom: 1vh;
-    background-color: rgb(255, 255, 108);
 }
 
 .grid {

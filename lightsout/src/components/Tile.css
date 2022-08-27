@@ -1,17 +1,20 @@
 .tile {
-    border: none;
-    margin: 1px;
-    width: max(calc((100% / 5) - 2px));
-    max-width: 88px;
+    /* Display */
     aspect-ratio: 1/1;
-    padding: 0;
+    border: none;
     border-radius: 4px;
+    margin: 1px;
+    max-width: 88px;
+    padding: 0;
+    width: max(calc((100% / 5) - 2px));
 }
 
 .tile[status='0'] {
+    /* Color */
     background-color: rgb(51, 82, 125);
 }
 
 .tile[status='1'] {
+    /* Color */
     background-color: rgb(255, 194, 0);
 }
