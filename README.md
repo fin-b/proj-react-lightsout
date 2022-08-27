@@ -18,9 +18,10 @@ A simple browser-based game I've made as part of my journey to learn how to use 
 
 ## Installation
 
- * Clone...
- * Install React (npm install)...
- * `npm start`...
+ * Ensure you have [Node.js](https://nodejs.org/en/download/) installed on your system
+ * Clone this repository with `https://github.com/fin-b/proj-react-lightsout.git`
+ * Navigate to `lightsout/` and install the project dependencies with `npm install`
+ * Run the app with `npm start`
 
 ## Organisation
 
