@@ -54,4 +54,28 @@
     /* Text */
     font-family: 'Montserrat', sans-serif;
     font-size: 22px;
+
+    /* Animation */
+    transition-duration: 200ms;
+}
+
+.gameButton:hover {
+    /* Display */
+    cursor: pointer;
+
+    /* Animation */
+    transition-duration: 200ms;
+}
+
+.gameButton[locked='0']:hover {
+    /* Color */
+    background-color: rgb(22, 57, 105);
+}
+
+.gameButton[locked='1']:hover {
+    /* Display */
+    cursor: not-allowed;
+
+    /* Color */
+    background-color: rgb(173, 185, 202);
 }
