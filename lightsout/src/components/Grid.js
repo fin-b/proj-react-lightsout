@@ -38,6 +38,20 @@ class Grid extends React.Component {
     this.setState({ tiles: tiles, solved: isSolved(tiles) })
   }
 
+  nextPuzzle () {
+    // Do nothing if current puzzle unsolved
+    if (!this.state.solved) return
+
+    this.setState({
+      // Select random puzzle
+      tiles: this.state.puzzles[
+        Math.floor(Math.random() * this.state.puzzles.length)
+      ],
+      // New puzzle is unsolved
+      solved: false
+    })
+  }
+
   /**
    *
    * @param {number} k key
@@ -81,15 +95,7 @@ class Grid extends React.Component {
 
     let nextPuzzleButton = this.renderGameButton(
       (!this.state.solved).toString(),
-      () => {
-        if (!this.state.solved) return
-        this.setState({
-          tiles: this.state.puzzles[
-            Math.floor(Math.random() * this.state.puzzles.length)
-          ],
-          solved: false
-        })
-      },
+      () => this.nextPuzzle(),
       'Next Puzzle'
     )
 
