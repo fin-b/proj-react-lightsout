@@ -13,11 +13,13 @@ class Grid extends React.Component {
     this.state = {
       tiles: puzzles[Math.floor(Math.random() * puzzles.length)],
       puzzles: puzzles,
-      lockProgress: true
+      solved: false
     }
   }
 
   handleClick (i) {
+    if (this.state.solved) return
+
     const NONE = -1 // Out-of-bound index
     const tiles = this.state.tiles.slice()
 
@@ -33,7 +35,7 @@ class Grid extends React.Component {
     // Toggle each selected tile's status
     targets.forEach(t => (tiles[t] = tiles[t] ? 0 : 1))
 
-    this.setState({ tiles: tiles })
+    this.setState({ tiles: tiles, solved: isSolved(tiles) })
   }
 
   /**
@@ -60,7 +62,7 @@ class Grid extends React.Component {
   render () {
     const SIZE = 5
     let grid = []
-    const status = isSolved(this.state.tiles) ? 'Solved' : 'Unsolved'
+    const status = this.state.solved ? 'Solved' : 'Unsolved'
 
     // Generate row
     for (let r = 0; r < SIZE; r++) {
@@ -78,13 +80,16 @@ class Grid extends React.Component {
     }
 
     let nextPuzzleButton = this.renderGameButton(
-      this.state.lockProgress.toString(),
-      () =>
+      (!this.state.solved).toString(),
+      () => {
+        if (!this.state.solved) return
         this.setState({
           tiles: this.state.puzzles[
             Math.floor(Math.random() * this.state.puzzles.length)
-          ]
-        }),
+          ],
+          solved: false
+        })
+      },
       'Next Puzzle'
     )
 
