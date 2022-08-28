@@ -1,4 +1,4 @@
-import './Grid.css'
+import './GameButton.css'
 
 function GameButton (props) {
   return (
