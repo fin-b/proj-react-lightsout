@@ -1,5 +1,6 @@
 import React from 'react'
 import { Tile } from './Tile'
+import { GameButton } from './GameButton'
 import './Grid.css'
 import puzzleSet from '../puzzles/puzzles.json'
 
@@ -11,7 +12,8 @@ class Grid extends React.Component {
 
     this.state = {
       tiles: puzzles[Math.floor(Math.random() * puzzles.length)],
-      puzzles: puzzles
+      puzzles: puzzles,
+      lockProgress: true
     }
   }
 
@@ -44,6 +46,17 @@ class Grid extends React.Component {
     return <Tile key={k} status={s} onClick={() => this.handleClick(k)} />
   }
 
+  /**
+   *
+   * @param {boolean} locked
+   * @param {function} action
+   * @param {string} content
+   * @returns {JSX.Element}
+   */
+  renderGameButton (locked, action, content) {
+    return <GameButton locked={locked} onClick={action} text={content} />
+  }
+
   render () {
     const SIZE = 5
     let grid = []
@@ -64,30 +77,21 @@ class Grid extends React.Component {
       )
     }
 
-    let nextPuzzleButton = (
-      <button
-        className='gameButton'
-        onClick={() =>
-          this.setState({
-            tiles: this.state.puzzles[
-              Math.floor(Math.random() * this.state.puzzles.length)
-            ]
-          })
-        }
-      >
-        Next Puzzle
-      </button>
+    let nextPuzzleButton = this.renderGameButton(
+      this.state.lockProgress.toString(),
+      () =>
+        this.setState({
+          tiles: this.state.puzzles[
+            Math.floor(Math.random() * this.state.puzzles.length)
+          ]
+        }),
+      'Next Puzzle'
     )
 
-    let copyStateToClipboardButton = (
-      <button
-        className='gameButton'
-        onClick={() =>
-          navigator.clipboard.writeText(this.state.tiles.slice(0, 24))
-        }
-      >
-        Copy Grid
-      </button>
+    let copyStateToClipboardButton = this.renderGameButton(
+      false.toString(),
+      () => navigator.clipboard.writeText(this.state.tiles.slice(0, 24)),
+      'Copy Grid'
     )
 
     return (
