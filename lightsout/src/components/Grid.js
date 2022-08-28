@@ -1,5 +1,6 @@
 import React from 'react'
 import { Tile } from './Tile'
+import { GameButton } from './GameButton'
 import './Grid.css'
 import puzzleSet from '../puzzles/puzzles.json'
 
@@ -11,11 +12,14 @@ class Grid extends React.Component {
 
     this.state = {
       tiles: puzzles[Math.floor(Math.random() * puzzles.length)],
-      puzzles: puzzles
+      puzzles: puzzles,
+      solved: false
     }
   }
 
   handleClick (i) {
+    if (this.state.solved) return
+
     const NONE = -1 // Out-of-bound index
     const tiles = this.state.tiles.slice()
 
@@ -31,7 +35,21 @@ class Grid extends React.Component {
     // Toggle each selected tile's status
     targets.forEach(t => (tiles[t] = tiles[t] ? 0 : 1))
 
-    this.setState({ tiles: tiles })
+    this.setState({ tiles: tiles, solved: isSolved(tiles) })
+  }
+
+  nextPuzzle () {
+    // Do nothing if current puzzle unsolved
+    if (!this.state.solved) return
+
+    this.setState({
+      // Select random puzzle
+      tiles: this.state.puzzles[
+        Math.floor(Math.random() * this.state.puzzles.length)
+      ],
+      // New puzzle is unsolved
+      solved: false
+    })
   }
 
   /**
@@ -44,10 +62,21 @@ class Grid extends React.Component {
     return <Tile key={k} status={s} onClick={() => this.handleClick(k)} />
   }
 
+  /**
+   *
+   * @param {boolean} locked
+   * @param {function} action
+   * @param {string} content
+   * @returns {JSX.Element}
+   */
+  renderGameButton (locked, action, content) {
+    return <GameButton locked={locked} onClick={action} text={content} />
+  }
+
   render () {
     const SIZE = 5
     let grid = []
-    const status = isSolved(this.state.tiles) ? 'Solved' : 'Unsolved'
+    const status = this.state.solved ? 'Solved' : 'Unsolved'
 
     // Generate row
     for (let r = 0; r < SIZE; r++) {
@@ -64,30 +93,16 @@ class Grid extends React.Component {
       )
     }
 
-    let nextPuzzleButton = (
-      <button
-        className='gameButton'
-        onClick={() =>
-          this.setState({
-            tiles: this.state.puzzles[
-              Math.floor(Math.random() * this.state.puzzles.length)
-            ]
-          })
-        }
-      >
-        Next Puzzle
-      </button>
+    let nextPuzzleButton = this.renderGameButton(
+      (!this.state.solved).toString(),
+      () => this.nextPuzzle(),
+      'Next Puzzle'
     )
 
-    let copyStateToClipboardButton = (
-      <button
-        className='gameButton'
-        onClick={() =>
-          navigator.clipboard.writeText(this.state.tiles.slice(0, 24))
-        }
-      >
-        Copy Grid
-      </button>
+    let copyStateToClipboardButton = this.renderGameButton(
+      false.toString(),
+      () => navigator.clipboard.writeText(this.state.tiles.slice(0, 24)),
+      'Copy Grid'
     )
 
     return (
