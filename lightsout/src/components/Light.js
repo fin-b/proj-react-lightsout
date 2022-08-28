@@ -1,14 +1,14 @@
 import React from 'react'
-import './Tile.css'
+import './Light.css'
 
-function Tile (props) {
+function Light (props) {
   return (
     <button
-      className='tile'
+      className='light'
       status={props.status}
       onClick={() => props.onClick()}
     ></button>
   )
 }
 
-export { Tile }
+export { Light }

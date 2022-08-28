@@ -1,20 +1,22 @@
-.tile {
+.light {
     /* Display */
     aspect-ratio: 1/1;
     border: none;
     border-radius: 4px;
     margin: 1px;
+    /* Effective max-width is 90px (including margin) */
     max-width: 88px;
     padding: 0;
-    width: max(calc((100% / 5) - 2px));
+    /* Distribute the space among 5 lights, minus each light's 2px margin */
+    width: calc((100% / 5) - 2px);
 }
 
-.tile[status='0'] {
+.light[status='0'] {
     /* Color */
     background-color: rgb(51, 82, 125);
 }
 
-.tile[status='1'] {
+.light[status='1'] {
     /* Color */
     background-color: rgb(255, 194, 0);
 }
