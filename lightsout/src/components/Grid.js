@@ -13,7 +13,8 @@ class Grid extends React.Component {
     this.state = {
       tiles: puzzles[Math.floor(Math.random() * puzzles.length)],
       puzzles: puzzles,
-      solved: false
+      solved: false,
+      clicks: 0
     }
   }
 
@@ -35,7 +36,7 @@ class Grid extends React.Component {
     // Toggle each selected tile's status
     targets.forEach(t => (tiles[t] = tiles[t] ? 0 : 1))
 
-    this.setState({ tiles: tiles, solved: isSolved(tiles) })
+    this.setState({ tiles: tiles, solved: isSolved(tiles), clicks: this.state.clicks + 1 })
   }
 
   nextPuzzle () {
@@ -48,7 +49,8 @@ class Grid extends React.Component {
         Math.floor(Math.random() * this.state.puzzles.length)
       ],
       // New puzzle is unsolved
-      solved: false
+      solved: false,
+      clicks: 0
     })
   }
 
@@ -76,7 +78,9 @@ class Grid extends React.Component {
   render () {
     const SIZE = 5
     let grid = []
+
     const status = this.state.solved ? 'Solved' : 'Unsolved'
+    const clickBubble = this.state.clicks ? <div className='statBubble'>{this.state.clicks}</div> : <></>
 
     // Generate row
     for (let r = 0; r < SIZE; r++) {
@@ -113,6 +117,7 @@ class Grid extends React.Component {
           {copyStateToClipboardButton}
           {nextPuzzleButton}
         </div>
+        {clickBubble}
       </div>
     )
   }

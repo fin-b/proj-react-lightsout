@@ -37,3 +37,26 @@
     flex-wrap: nowrap;
     justify-content: space-between;
 }
+
+.statBubble {
+    /* Display */
+    border: 8px solid;
+    border-radius: 16px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    height: 1.5em;
+    width: 1.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Colors */
+    background-color: rgb(51, 82, 125);
+    border-color: rgb(22, 57, 105);
+    color: rgb(255, 255, 157);
+
+    /* Text */
+    font-size: 48px;
+    font-family: 'Montserrat', sans-serif;
+}
