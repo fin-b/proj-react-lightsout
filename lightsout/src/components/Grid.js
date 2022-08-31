@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tile } from './Tile'
+import { Light } from './Light'
 import { GameButton } from './GameButton'
 import './Grid.css'
 import puzzleSet from '../puzzles/puzzles.json'
@@ -11,7 +11,7 @@ class Grid extends React.Component {
     const puzzles = puzzleSet.initial_states
 
     this.state = {
-      tiles: puzzles[Math.floor(Math.random() * puzzles.length)],
+      lights: puzzles[Math.floor(Math.random() * puzzles.length)],
       puzzles: puzzles,
       solved: false,
       clicks: 0
@@ -22,21 +22,21 @@ class Grid extends React.Component {
     if (this.state.solved) return
 
     const NONE = -1 // Out-of-bound index
-    const tiles = this.state.tiles.slice()
+    const lights = this.state.lights.slice()
 
-    // Generate cross pattern about selected tile
+    // Get indexes of neighbouring lights
     const targets = [
-      i - 5, // Tile above
-      i % 5 ? i - 1 : NONE, // Tile on left, account for left edge of grid
-      i, // Selected tile
-      (i + 1) % 5 ? i + 1 : NONE, // Tile on right, account for right edge of grid
-      i + 5 // Tile above
-    ].filter(i => 0 <= i <= tiles.length) // Remove out-of-bound indexes
+      i - 5, // Light above
+      i % 5 ? i - 1 : NONE, // Light on left, account for left edge of grid
+      i, // Selected light
+      (i + 1) % 5 ? i + 1 : NONE, // Light on right, account for right edge of grid
+      i + 5 // Light below
+    ].filter(i => 0 <= i <= lights.length) // Remove out-of-bound indexes
 
-    // Toggle each selected tile's status
-    targets.forEach(t => (tiles[t] = tiles[t] ? 0 : 1))
+    // Toggle each selected light's status
+    targets.forEach(light => (lights[light] = lights[light] ? 0 : 1))
 
-    this.setState({ tiles: tiles, solved: isSolved(tiles), clicks: this.state.clicks + 1 })
+    this.setState({ lights: lights, solved: isSolved(lights), clicks: this.state.clicks + 1 })
   }
 
   nextPuzzle () {
@@ -45,7 +45,7 @@ class Grid extends React.Component {
 
     this.setState({
       // Select random puzzle
-      tiles: this.state.puzzles[
+      lights: this.state.puzzles[
         Math.floor(Math.random() * this.state.puzzles.length)
       ],
       // New puzzle is unsolved
@@ -60,8 +60,8 @@ class Grid extends React.Component {
    * @param {number} s status
    * @returns {JSX.Element}
    */
-  renderTile (k, s) {
-    return <Tile key={k} status={s} onClick={() => this.handleClick(k)} />
+  renderLight (k, s) {
+    return <Light key={k} status={s} onClick={() => this.handleClick(k)} />
   }
 
   /**
@@ -85,10 +85,10 @@ class Grid extends React.Component {
     // Generate row
     for (let r = 0; r < SIZE; r++) {
       let row = []
-      // Generate tiles
+      // Generate grid of lights
       for (let c = 0; c < SIZE; c++) {
         let i = r * SIZE + c
-        row.push(this.renderTile(i, this.state.tiles[i]))
+        row.push(this.renderLight(i, this.state.lights[i]))
       }
       grid.push(
         <div key={r} className='gridRow'>
@@ -105,7 +105,7 @@ class Grid extends React.Component {
 
     let copyStateToClipboardButton = this.renderGameButton(
       false.toString(),
-      () => navigator.clipboard.writeText(this.state.tiles.slice(0, 24)),
+      () => navigator.clipboard.writeText(this.state.lights.slice(0, 24)),
       'Copy Grid'
     )
 
